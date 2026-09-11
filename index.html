@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aleyna Aydoğdu — Yazılım Mühendisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1b26;
+    --bg-panel: #112536;
+    --bg-panel-2: #0f2030;
+    --grid-line: rgba(143,168,188,0.08);
+    --grid-line-strong: rgba(143,168,188,0.16);
+    --border: #274257;
+    --border-bright: #3b6480;
+    --ink: #eaf0f4;
+    --ink-dim: #9fb4c4;
+    --ink-faint: #6d8598;
+    --copper: #e2984f;
+    --copper-dim: #a86c3a;
+    --teal: #6fc2b0;
+    --radius: 3px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0; min-width:0;}
+
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    overflow-x:hidden;
+    width:100%;
+  }
+
+  img, svg{ max-width:100%; }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  ::selection{ background:var(--copper); color:#0d1b26; }
+
+  /* ---------- layout shells ---------- */
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 64px; width:100%; }
+  section{ padding:110px 0; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+  section:last-of-type{ border-bottom:none; }
+  @media(max-width:900px){ .wrap{ padding:0 40px; } }
+  @media(max-width:640px){
+    .wrap{ padding:0 28px; }
+    section{ padding:80px 0; }
+  }
+
+  .tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--copper);
+    letter-spacing:0.02em;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .tag::before{
+    content:'';
+    width:7px; height:7px;
+    border:1.5px solid var(--copper);
+    transform:rotate(45deg);
+    display:inline-block;
+  }
+
+  h2.section-title{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:clamp(28px,3.4vw,38px);
+    letter-spacing:-0.01em;
+    max-width:640px;
+    margin-bottom:48px;
+  }
+
+  /* corner-bracket panel, used instead of rounded shadow cards */
+  .panel{
+    position:relative;
+    border:1px solid var(--border);
+    background:var(--bg-panel);
+    padding:28px;
+  }
+  .panel::before,.panel::after,
+  .panel .cb-tl, .panel .cb-br{ content:''; }
+  .bracket{ position:absolute; width:10px; height:10px; pointer-events:none; }
+  .bracket.tl{ top:-1px; left:-1px; border-top:2px solid var(--copper); border-left:2px solid var(--copper); }
+  .bracket.br{ bottom:-1px; right:-1px; border-bottom:2px solid var(--copper); border-right:2px solid var(--copper); }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(13,27,38,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    max-width:1080px; margin:0 auto; padding:0 64px;
+    height:64px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  @media(max-width:900px){ nav{ padding:0 40px; } }
+  @media(max-width:640px){ nav{ padding:0 28px; } }
+  .logo{ font-family:'JetBrains Mono', monospace; font-weight:600; font-size:14.5px; letter-spacing:0.02em; }
+  .logo span{ color:var(--copper); }
+  .navlinks{ display:flex; gap:30px; }
+  .navlinks a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--ink-dim);
+    transition:color .15s;
+  }
+  .navlinks a:hover{ color:var(--ink); }
+  .nav-cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    border:1px solid var(--border-bright);
+    padding:7px 14px;
+    color:var(--copper);
+    transition:background .15s, color .15s;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .nav-cta:hover{ background:var(--copper); color:#0d1b26; }
+  @media(max-width:720px){ .navlinks{ display:none; } }
+  @media(max-width:400px){ .nav-cta{ padding:6px 10px; font-size:12px; } }
+
+  /* ---------- hero ---------- */
+  #hero{
+    padding-top:170px;
+    padding-bottom:90px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.35fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  #hero h1{
+    font-size:clamp(40px,6vw,64px);
+    font-weight:800;
+    line-height:1.03;
+    letter-spacing:-0.02em;
+    margin-bottom:22px;
+  }
+  #hero .role{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--teal);
+    font-size:16px;
+    margin-bottom:26px;
+  }
+  #hero p.lede{
+    color:var(--ink-dim);
+    font-size:16.5px;
+    max-width:520px;
+    margin-bottom:34px;
+  }
+  .trace{ width:100%; height:auto; display:block; margin-bottom:34px; }
+  .trace path{
+    fill:none;
+    stroke:var(--copper);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-dasharray:900;
+    stroke-dashoffset:900;
+    animation:draw 2.2s ease forwards .3s;
+  }
+  .trace circle{ fill:var(--bg); stroke:var(--border-bright); stroke-width:1.5; opacity:0; animation:pop .3s ease forwards; }
+  .trace circle.c1{ animation-delay:.5s; } .trace circle.c2{ animation-delay:1.1s; }
+  .trace circle.c3{ animation-delay:1.7s; } .trace circle.c4{ animation-delay:2.2s; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes pop{ to{ opacity:1; } }
+  @media (prefers-reduced-motion: reduce){
+    .trace path{ animation:none; stroke-dashoffset:0; }
+    .trace circle{ animation:none; opacity:1; }
+  }
+
+  .cta-row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13.5px;
+    padding:12px 16px;
+    border:1px solid var(--border-bright);
+    display:inline-flex; align-items:center; gap:8px;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .btn.primary{ background:var(--copper); border-color:var(--copper); color:#0d1b26; font-weight:600; }
+  .btn.primary:hover{ background:#f0aa66; }
+  .btn.ghost{ color:var(--ink); }
+  .btn.ghost:hover{ border-color:var(--copper); color:var(--copper); }
+
+  /* spec sheet in hero */
+  .spec{
+    border:1px solid var(--border);
+    background:var(--bg-panel);
+    position:relative;
+  }
+  .spec-head{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+    padding:12px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex; justify-content:space-between;
+  }
+  .spec-row{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:13px 18px;
+    border-bottom:1px solid var(--border);
+    font-size:13.5px;
+  }
+  .spec-row:last-child{ border-bottom:none; }
+  .spec-row .k{ font-family:'JetBrains Mono', monospace; color:var(--ink-faint); font-size:12px; }
+  .spec-row .v{ text-align:right; color:var(--ink); }
+  .spec-row .v.status{ color:var(--teal); font-family:'JetBrains Mono', monospace; font-size:12px; }
+
+  @media(max-width:860px){
+    #hero{ padding-top:130px; }
+    .hero-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- about ---------- */
+  #about .wrap{ display:grid; grid-template-columns:1fr; }
+  #about p{ max-width:700px; color:var(--ink-dim); font-size:16.5px; }
+  #about p + p{ margin-top:18px; }
+  #about strong{ color:var(--ink); font-weight:700; }
+
+  /* ---------- stack ---------- */
+  .stack-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  .stack-cell{ background:var(--bg-panel); padding:24px; border:1px solid var(--border); }
+  .stack-cell h3{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--copper);
+    margin-bottom:14px;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-dim);
+    border:1px solid var(--border);
+    padding:5px 10px;
+  }
+  @media(max-width:720px){ .stack-grid{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .stack-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- projects ---------- */
+  .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:780px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj{
+    position:relative;
+    border:1px solid var(--border);
+    background:var(--bg-panel);
+    padding:26px;
+    display:flex; flex-direction:column; gap:14px;
+    transition:border-color .15s, transform .15s, background .15s;
+    cursor:pointer;
+  }
+  .proj:hover{ border-color:var(--copper); transform:translateY(-2px); background:var(--bg-panel-2); }
+  .proj:focus-visible{ outline:2px solid var(--copper); outline-offset:2px; }
+  .proj-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .proj h3{ font-size:18px; font-weight:700; }
+  .proj .live{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    color:var(--teal);
+    border:1px solid var(--teal);
+    padding:2px 7px;
+    white-space:nowrap;
+  }
+  .proj p.desc{ color:var(--ink-dim); font-size:14.5px; flex-grow:1; }
+  .proj .field{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-faint); overflow-wrap:anywhere; }
+  .proj .field b{ color:var(--ink-dim); font-weight:500; }
+  .proj .link{
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--copper);
+    display:inline-flex; align-items:center; gap:6px; margin-top:2px;
+    overflow-wrap:anywhere; word-break:break-word; max-width:100%;
+    position:relative; z-index:2;
+  }
+  .proj .link:hover{ text-decoration:underline; }
+  .proj .link-row{ display:flex; flex-wrap:wrap; gap:4px 16px; }
+  .proj-more{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--ink-faint);
+    margin-top:auto;
+    padding-top:10px;
+    border-top:1px solid var(--border);
+    transition:color .15s, transform .15s;
+  }
+  .proj:hover .proj-more{ color:var(--copper); transform:translateX(3px); }
+
+  /* ---------- project detail modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(6,13,19,0.72);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:80px 24px 40px;
+    overflow-y:auto;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    position:relative;
+    width:100%; max-width:640px;
+    background:var(--bg-panel);
+    border:1px solid var(--border-bright);
+    padding:36px;
+    animation:modalIn .18s ease;
+  }
+  @keyframes modalIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  .modal .bracket.tl{ top:-1px; left:-1px; border-top:2px solid var(--copper); border-left:2px solid var(--copper); }
+  .modal .bracket.br{ bottom:-1px; right:-1px; border-bottom:2px solid var(--copper); border-right:2px solid var(--copper); }
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--ink-faint);
+    border:1px solid var(--border);
+    width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:color .15s, border-color .15s;
+    background:none;
+  }
+  .modal-close:hover{ color:var(--copper); border-color:var(--copper); }
+  .modal-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:6px; padding-right:36px; }
+  .modal h3{ font-size:23px; font-weight:800; letter-spacing:-0.01em; }
+  .modal-status{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--teal);
+    border:1px solid var(--teal); padding:3px 8px; white-space:nowrap;
+  }
+  .modal-stack{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-faint); margin-bottom:22px; }
+  .modal-summary{ color:var(--ink-dim); font-size:15px; margin-bottom:22px; }
+  .modal-sub{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--copper);
+    letter-spacing:0.02em; margin-bottom:10px;
+  }
+  .modal-features{ list-style:none; margin-bottom:22px; }
+  .modal-features li{
+    position:relative; padding-left:18px; margin-bottom:8px;
+    color:var(--ink-dim); font-size:14px;
+  }
+  .modal-features li::before{
+    content:''; position:absolute; left:0; top:7px;
+    width:6px; height:6px; border:1.5px solid var(--copper);
+    transform:rotate(45deg);
+  }
+  .modal-links{ display:flex; flex-wrap:wrap; gap:12px; padding-top:18px; border-top:1px solid var(--border); }
+  .modal-links a{
+    font-family:'JetBrains Mono', monospace; font-size:13px;
+    border:1px solid var(--border-bright); padding:9px 16px;
+    color:var(--copper); transition:background .15s, color .15s;
+  }
+  .modal-links a:hover{ background:var(--copper); color:#0d1b26; }
+  @media(max-width:600px){
+    .modal{ padding:26px; }
+    .modal-overlay{ padding:60px 14px 30px; }
+  }
+
+  /* ---------- certificates ---------- */
+  .cert-list{ border-top:1px solid var(--border); }
+  .cert-row{
+    display:grid; grid-template-columns:90px 1fr 140px;
+    gap:16px; align-items:baseline;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .cert-row .yr{ font-family:'JetBrains Mono', monospace; color:var(--copper); font-size:13px; }
+  .cert-row .name{ font-size:15px; }
+  .cert-row .issuer{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-faint); text-align:right; }
+  @media(max-width:600px){
+    .cert-row{ grid-template-columns:1fr; gap:4px; }
+    .cert-row .issuer{ text-align:left; }
+  }
+
+  /* ---------- education timeline ---------- */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{
+    content:''; position:absolute; left:4px; top:6px; bottom:6px; width:1px; background:var(--border-bright);
+  }
+  .t-item{ position:relative; padding-bottom:36px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-item::before{
+    content:''; position:absolute; left:-28px; top:4px;
+    width:9px; height:9px; background:var(--bg); border:2px solid var(--copper);
+    transform:rotate(45deg);
+  }
+  .t-item .yr{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-faint); margin-bottom:6px; }
+  .t-item h4{ font-size:16.5px; font-weight:700; margin-bottom:4px; }
+  .t-item .sub{ color:var(--ink-dim); font-size:14px; }
+
+  /* ---------- languages / meta strip ---------- */
+  .meta-strip{ display:flex; gap:60px; flex-wrap:wrap; margin-top:56px; }
+  .meta-strip .m{ }
+  .meta-strip .m .k{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-faint); margin-bottom:6px; }
+  .meta-strip .m .v{ font-size:15px; }
+
+  /* ---------- contact/footer ---------- */
+  #contact{ text-align:left; }
+  #contact h2.section-title{ margin-bottom:20px; }
+  #contact p.lede{ color:var(--ink-dim); max-width:520px; margin-bottom:42px; font-size:16.5px; }
+  .contact-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .contact-cell{
+    background:var(--bg-panel); padding:22px; display:flex; flex-direction:column; gap:8px;
+    border:1px solid var(--border);
+    transition:background .15s, border-color .15s;
+    min-width:0;
+  }
+  .contact-cell:hover{ border-color:var(--border-bright); }
+  .contact-cell:hover{ background:var(--bg-panel-2); }
+  .contact-cell .k{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-faint); }
+  .contact-cell .v{ font-family:'JetBrains Mono', monospace; font-size:13.5px; color:var(--copper); word-break:break-word; }
+  @media(max-width:780px){ .contact-grid{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .contact-grid{ grid-template-columns:1fr; } }
+
+  footer{
+    padding:28px 0 40px;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-faint);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">AA<span>_</span>DEV</div>
+    <div class="navlinks">
+      <a href="#about">Profil</a>
+      <a href="#stack">Yetkinlikler</a>
+      <a href="#projects">Projeler</a>
+      <a href="#tools">Mini Araçlar</a>
+      <a href="#certs">Sertifikalar</a>
+      <a href="#education">Eğitim</a>
+    </div>
+    <a class="nav-cta" href="#contact">İletişim →</a>
+  </nav>
+</header>
+
+<section id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="tag">YENİ MEZUN — YAZILIM MÜHENDİSLİĞİ</div>
+      <h1>Aleyna<br>Aydoğdu</h1>
+      <div class="role mono">Backend odaklı Full-Stack Yazılım Mühendisi</div>
+      <p class="lede">REST API'ler, veritabanı tasarımı ve gömülü sistemlerden mobil uygulamalara uzanan bir yelpazede üretiyorum. Bir freelance projeyi uçtan uca canlıya aldım; sensörden servere uzanan sistemleri kendi başıma kurguladım.</p>
+
+      <svg class="trace" viewBox="0 0 520 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 55 L120 55 L150 25 L280 25 L310 55 L430 55 L460 15 L510 15" />
+        <circle class="c1" cx="10" cy="55" r="5"/>
+        <circle class="c2" cx="150" cy="25" r="5"/>
+        <circle class="c3" cx="310" cy="55" r="5"/>
+        <circle class="c4" cx="510" cy="15" r="5"/>
+      </svg>
+
+      <div class="cta-row">
+        <a class="btn primary" href="#projects">Projeleri incele</a>
+        <a class="btn ghost" href="Aleyna_Aydogdu_CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+        <a class="btn ghost" href="https://github.com/Aley777" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/aleyna-aydoğdu-370a85307" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-head"><span>SPEC://PROFIL</span><span>REV.2026</span></div>
+      <div class="spec-row"><span class="k">KONUM</span><span class="v">Bağcılar, İstanbul</span></div>
+      <div class="spec-row"><span class="k">EĞİTİM</span><span class="v">İstanbul Topkapı Üni. — Yazılım Müh. <span style="font-size:11px; color:var(--ink-faint);">(Mezun)</span></span></div>
+      <div class="spec-row"><span class="k">İKİNCİ PROGRAM</span><span class="v">İstanbul Üni. — Yönetim Bilişim Sist.</span></div>
+      <div class="spec-row"><span class="k">ODAK</span><span class="v">Backend, REST API, Full-Stack</span></div>
+      <div class="spec-row"><span class="k">İLGİ ALANI</span><span class="v">Gömülü sistemler, Mobil, Yapay zekâ</span></div>
+      <div class="spec-row"><span class="k">DİL</span><span class="v">İngilizce — B2</span></div>
+      <div class="spec-row"><span class="k">DURUM</span><span class="v status">● İŞ FIRSATLARINA AÇIK</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="tag">PROFİL</div>
+    <h2 class="section-title">Yazılım Mühendisliği mezunuyum ve kariyerime özellikle Backend ve Full Stack Development alanında devam etmeyi hedefliyorum.</h2>
+    <p><strong>İstanbul Topkapı Üniversitesi Yazılım Mühendisliği</strong> bölümünden mezun oldum. Aynı zamanda İstanbul Üniversitesi Açıköğretim Fakültesi Yönetim Bilişim Sistemleri programında eğitimime devam ediyorum.</p>
+    <p>Eğitimim ve kişisel projelerim boyunca <strong>JavaScript, React, Node.js, Express.js, REST API, MongoDB, SQL</strong> ve <strong>C++</strong> gibi teknolojilerle çalışarak farklı projeler geliştirdim. Özellikle backend tarafında API geliştirme, authentication, veritabanı yönetimi ve uygulama mimarisi üzerine kendimi geliştirirken, frontend tarafında React ile web uygulamaları geliştiriyorum.</p>
+    <p>Bunun yanında yapay zekâ, IoT ve gömülü sistemler alanlarına da ilgi duyuyorum. Üniversite kapsamında geliştirdiğim akıllı saksı projesinde framework ve karar mekanizması üzerine çalışarak sensör verilerinin işlenmesi, fuzzy logic tabanlı karar verme ve API entegrasyonu gibi konularda deneyim kazandım.</p>
+    <p>Proje geliştirirken yalnızca teknolojileri kullanmaya değil, problemi anlamaya, sürdürülebilir yapılar kurmaya ve gerçek ihtiyaçlara çözüm üretmeye odaklanıyorum. Şu anda özellikle backend ve full stack development alanlarında kendimi geliştirmeye, yeni teknolojiler öğrenmeye ve gerçek dünya projelerinde deneyim kazanmaya devam ediyorum.</p>
+    <p>Öğrenmeye açık, üretmeyi seven ve sürekli kendini geliştiren bir yazılım mühendisi olarak yeni fırsatlara açığım.</p>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="tag">TEKNİK YETKİNLİKLER</div>
+    <h2 class="section-title">Uçtan uca üretebileceğim bir teknoloji seti.</h2>
+    <div class="stack-grid">
+      <div class="stack-cell">
+        <h3>PROGRAMLAMA DİLLERİ</h3>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">C++</span><span class="chip">C#</span>
+          <span class="chip">Java</span><span class="chip">Dart</span><span class="chip">PHP</span><span class="chip">JavaScript</span>
+        </div>
+      </div>
+      <div class="stack-cell">
+        <h3>FRONTEND</h3>
+        <div class="chip-row">
+          <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">React.js</span>
+        </div>
+      </div>
+      <div class="stack-cell">
+        <h3>BACKEND &amp; API</h3>
+        <div class="chip-row">
+          <span class="chip">Node.js</span><span class="chip">ASP.NET Core</span><span class="chip">PHP (Laravel)</span><span class="chip">REST API</span>
+        </div>
+      </div>
+      <div class="stack-cell">
+        <h3>MOBİL</h3>
+        <div class="chip-row"><span class="chip">Flutter</span></div>
+      </div>
+      <div class="stack-cell">
+        <h3>VERİTABANI</h3>
+        <div class="chip-row">
+          <span class="chip">MSSQL</span><span class="chip">MySQL</span><span class="chip">SQLite</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span>
+        </div>
+      </div>
+      <div class="stack-cell">
+        <h3>ARAÇLAR</h3>
+        <div class="chip-row">
+          <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Docker</span><span class="chip">IntelliJ IDEA</span><span class="chip">VS Code</span>
+          <span class="chip">Visual Studio</span><span class="chip">Android Studio</span><span class="chip">SSMS</span><span class="chip">Postman</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="tag">PROJELER</div>
+    <h2 class="section-title">Fikirden canlı ortama: sekiz proje, sekiz farklı problem.</h2>
+    <p style="color:var(--ink-faint); font-size:13px; font-family:'JetBrains Mono', monospace; margin-top:-28px; margin-bottom:36px;">→ Detaylı açıklama için bir karta tıkla</p>
+
+    <div class="proj-grid">
+
+      <div class="proj" data-project="proAcademy" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top">
+          <h3>Pro Academy Bowling Equipment</h3>
+          <span class="live">CANLI</span>
+        </div>
+        <p class="desc">Bir işletme için uçtan uca geliştirdiğim freelance kurumsal web sitesi. Ürün/kategori yönetimi, kurumsal içerik sayfaları ve iletişim formunu içerir; müşteriyle doğrudan çalışarak teslim ettim.</p>
+        <div class="field"><b>Stack:</b> PHP, Laravel, MySQL, HTML, CSS, JavaScript</div>
+        <a class="link" href="https://proacademybowlingequipment.com.tr" target="_blank" rel="noopener" onclick="event.stopPropagation()">proacademybowlingequipment.com.tr ↗</a>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="akilliBitki" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Akıllı Bitki Yetiştirme Sistemi</h3></div>
+        <p class="desc">C++ ile geliştirilen modüler akıllı saksı framework'ü. Sensör verisini işleyip fuzzy karar mekanizmasıyla sulama kararı veriyor; API entegrasyonu, cihaz kaydı, heartbeat ve hata loglama içeriyor.</p>
+        <div class="field"><b>Stack:</b> C++, CMake, REST API, libcurl, JSON, Fuzzy Logic</div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="jwtAuth" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>JWT Auth API</h3><span class="live">CANLI</span></div>
+        <p class="desc">Production seviyesinde bir kimlik doğrulama servisi: JWT + refresh token, rol tabanlı yetkilendirme, MongoDB Atlas, Docker ve Swagger dokümantasyonu ile CI/CD üzerinde 32'den fazla otomatik testle desteklenmiş bir REST API.</p>
+        <div class="field"><b>Stack:</b> Node.js, Express, MongoDB, JWT, Docker, Swagger, Jest</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/auth_api_jwt" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://auth-api-jwt-gwae.onrender.com/api-docs" target="_blank" rel="noopener" onclick="event.stopPropagation()">Swagger docs ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="urlShortener" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>URL Shortener</h3><span class="live">CANLI</span></div>
+        <p class="desc">Uzun URL'leri kısa bağlantılara çeviren backend servisi. Yönlendirme, tıklanma takibi, URL doğrulama, özel kısa kod desteği ve istatistik endpoint'i içeriyor.</p>
+        <div class="field"><b>Stack:</b> Node.js, Express.js, SQLite, REST API</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/url-shortener" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://url-shortener-d4hm.onrender.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Canlı demo ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="arduinoAraba" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top">
+          <h3>Sesli &amp; Hareket Kontrollü Arduino Araba</h3>
+        </div>
+        <p class="desc">Sesli komutlar ve el hareketleriyle yönlendirilebilen Arduino tabanlı araç. Sensör verisi okuma, komut işleme, motor kontrolü ve donanım–yazılım entegrasyonu üzerine çalıştım.</p>
+        <div class="field"><b>Stack:</b> Arduino, C/C++, Sensörler, Motor Sürücü</div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="veriMadenciligi" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Veri Madenciliği &amp; Sınıflandırma</h3></div>
+        <p class="desc">"TheRookies" ekibiyle gerçek bir veri seti (polis tutuklama kayıtları) üzerinde ön işleme, özellik seçimi ve iki farklı sınıflandırma modeli kurduk; süreci Jupyter Notebook'ta uygulayıp sonuçları sunum haline getirdik.</p>
+        <div class="field"><b>Stack:</b> Python, Jupyter Notebook, Makine Öğrenmesi</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/TheRookies" target="_blank" rel="noopener" onclick="event.stopPropagation()">TheRookies ↗</a>
+          <a class="link" href="https://github.com/Aley777/TheRookiesFinal" target="_blank" rel="noopener" onclick="event.stopPropagation()">TheRookiesFinal ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="pomodoro" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Pomodoro Timer</h3><span class="live">CANLI</span></div>
+        <p class="desc">25/5/15 Pomodoro döngüsüyle çalışan, günlük hedef takibi ve oturum geçmişi sunan odaklanma uygulaması. Dairesel ilerleme göstergesi ve sesli bildirimlerle React Hooks üzerine kurulu.</p>
+        <div class="field"><b>Stack:</b> React, Vite, JavaScript, CSS, Local Storage API</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/PomodoroTimer" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://pomodoro-timer-psi-puce.vercel.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Canlı demo ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="takiSitesi" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Takı Web Sitesi</h3></div>
+        <p class="desc">Takı ürünlerinin listelendiği ve yönetildiği bir e-ticaret sitesi taslağı. Okul projesi olduğu için canlıya alınmadı; ürün/kategori yapısı, arayüz ve veritabanı bağlantısı üzerinde çalıştım.</p>
+        <div class="field"><b>Stack:</b> HTML, CSS, JavaScript, PHP, MySQL</div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="wrap">
+    <div class="tag">GITHUB'DAN — MİNİ ARAÇLAR</div>
+    <h2 class="section-title">Boş zamanlarda ürettiğim, canlıda çalışan küçük frontend araçları.</h2>
+    <div class="proj-grid">
+
+      <div class="proj" data-project="markdownEditor" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Markdown Editor</h3><span class="live">CANLI</span></div>
+        <p class="desc">Solda yazıp sağda anlık önizleme gördüğünüz, React ile geliştirdiğim markdown editörü. Karanlık/aydınlık mod, araç çubuğu, kelime sayacı ve .md olarak indirme özelliklerini içeriyor.</p>
+        <div class="field"><b>Stack:</b> React, Vite, react-markdown, CSS</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/MarkdownEditor" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://markdown-editor-orcin-delta.vercel.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Canlı demo ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="passwordGenerator" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>Password Generator</h3><span class="live">CANLI</span></div>
+        <p class="desc">Kullanıcı tercihlerine göre güçlü ve rastgele şifreler üreten React uygulaması. Şifre gücü göstergesi, tek tıkla kopyalama ve son 5 şifre geçmişi gibi özellikler içeriyor.</p>
+        <div class="field"><b>Stack:</b> React, Vite, JavaScript, CSS</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/PasswordGenerator" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://password-generator-omega-azure.vercel.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Canlı demo ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+      <div class="proj" data-project="jsonFormatter" tabindex="0" role="button" aria-haspopup="dialog">
+        <div class="proj-top"><h3>JSON Formatter Tool</h3><span class="live">CANLI</span></div>
+        <p class="desc">JSON verisini biçimlendiren, sıkıştıran, doğrulayan ve ağaç görünümünde görselleştiren geliştirici aracı. Sürükle-bırak dosya yükleme ve URL'den JSON çekme desteği var.</p>
+        <div class="field"><b>Stack:</b> React, Vite, @uiw/react-json-view</div>
+        <div class="link-row">
+          <a class="link" href="https://github.com/Aley777/JSON_FormetterTool" target="_blank" rel="noopener" onclick="event.stopPropagation()">GitHub ↗</a>
+          <a class="link" href="https://json-formetter-tool.vercel.app/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Canlı demo ↗</a>
+        </div>
+        <div class="proj-more">Detayları gör →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <div class="tag">SERTİFİKALAR</div>
+    <h2 class="section-title">Sürekli öğrenmeyi somutlaştıran bir kayıt.</h2>
+    <div class="cert-list">
+      <div class="cert-row"><span class="yr">2025</span><span class="name">Flutter ile Mobil Uygulama Geliştirme</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2025</span><span class="name">Dart Programlama Dili</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2025</span><span class="name">Güvenli Yazılım Geliştirme</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2025</span><span class="name">Web Sitesi Kullanılabilirliği</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2024</span><span class="name">Veri Bilimi için Python ve TensorFlow</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2024</span><span class="name">Python Programlama Dili</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2024</span><span class="name">İşletim Sistemlerine Giriş</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2024</span><span class="name">Sosyal Mühendislik ve Oltalama</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2024</span><span class="name">Siber Güvenliğe Giriş</span><span class="issuer">BTK Akademi</span></div>
+      <div class="cert-row"><span class="yr">2023</span><span class="name">Bilgi Teknolojilerine Giriş</span><span class="issuer">BTK Akademi</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="tag">EĞİTİM</div>
+    <h2 class="section-title">Akademik geçmiş.</h2>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="yr">2024 — 2028</div>
+        <h4>İstanbul Üniversitesi</h4>
+        <div class="sub">Yönetim Bilişim Sistemleri, Lisans (Açıköğretim)</div>
+      </div>
+      <div class="t-item">
+        <div class="yr">2022 — 2026</div>
+        <h4>İstanbul Topkapı Üniversitesi <span style="font-size:11px; font-weight:500; color:var(--ink-faint);">(Mezun)</span></h4>
+        <div class="sub">Yazılım Mühendisliği, Lisans</div>
+      </div>
+      <div class="t-item">
+        <div class="yr">2018 — 2022</div>
+        <h4>Bahçelievler Anadolu Lisesi</h4>
+        <div class="sub">Lise Eğitimi</div>
+      </div>
+    </div>
+
+    <div class="meta-strip">
+      <div class="m"><div class="k">DİL</div><div class="v">İngilizce — B2</div></div>
+      <div class="m"><div class="k">REFERANS</div><div class="v">Talep üzerine paylaşılacaktır</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="tag">İLETİŞİM</div>
+    <h2 class="section-title">Bir sonraki ekibinizde yer almaktan mutluluk duyarım.</h2>
+    <p class="lede">Backend, full-stack veya gömülü sistemler tarafında bir pozisyon arıyorsanız, aşağıdaki kanallardan bana ulaşabilirsiniz.</p>
+    <div class="contact-grid">
+      <a class="contact-cell" href="mailto:aleynaaydogd@gmail.com">
+        <span class="k">E-POSTA</span>
+        <span class="v">aleynaaydogd@gmail.com</span>
+      </a>
+      <a class="contact-cell" href="tel:+905396331834">
+        <span class="k">TELEFON</span>
+        <span class="v">+90 539 633 18 34</span>
+      </a>
+      <a class="contact-cell" href="https://github.com/Aley777" target="_blank" rel="noopener">
+        <span class="k">GITHUB</span>
+        <span class="v">github.com/Aley777</span>
+      </a>
+      <a class="contact-cell" href="https://www.linkedin.com/in/aleyna-aydoğdu-370a85307" target="_blank" rel="noopener">
+        <span class="k">LINKEDIN</span>
+        <span class="v">in/aleyna-aydoğdu</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Aleyna Aydoğdu — Bağcılar, İstanbul</footer>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <span class="bracket tl"></span><span class="bracket br"></span>
+    <button class="modal-close" id="modalClose" aria-label="Kapat">✕</button>
+    <div class="modal-top">
+      <h3 id="modalTitle"></h3>
+      <span class="modal-status" id="modalStatus"></span>
+    </div>
+    <div class="modal-stack" id="modalStack"></div>
+    <p class="modal-summary" id="modalSummary"></p>
+    <div class="modal-sub">ÖNE ÇIKAN ÖZELLİKLER</div>
+    <ul class="modal-features" id="modalFeatures"></ul>
+    <div class="modal-links" id="modalLinks"></div>
+  </div>
+</div>
+
+<script>
+  // ---------- project detail data (sourced from GitHub READMEs + project notes) ----------
+  var PROJECTS = {
+    proAcademy: {
+      title: "Pro Academy Bowling Equipment",
+      status: "CANLI",
+      stack: "PHP · Laravel · MySQL · HTML · CSS · JavaScript",
+      summary: "Bir bowling ekipmanları işletmesi için uçtan uca geliştirdiğim, gerçek bir müşteriye teslim ettiğim freelance kurumsal web sitesi. Backend'i Laravel ile kurdum, veritabanı şemasını tasarladım ve müşteriyle doğrudan iletişim halinde çalışarak projeyi canlıya aldım.",
+      features: [
+        "Ürün ve kategori yönetimi (admin tarafından güncellenebilir)",
+        "Kurumsal içerik sayfaları (hakkımızda, hizmetler vb.)",
+        "İletişim formu ve müşteri talebi akışı",
+        "Laravel tabanlı MVC mimarisi, MySQL veritabanı",
+        "Gerçek bir müşteri için tasarlanıp canlı ortamda yayında"
+      ],
+      links: [
+        { label: "Canlı site ↗", url: "https://proacademybowlingequipment.com.tr" }
+      ]
+    },
+    akilliBitki: {
+      title: "Akıllı Bitki Yetiştirme Sistemi",
+      status: "FRAMEWORK",
+      stack: "C++ · CMake · REST API · libcurl · JSON · Fuzzy Logic",
+      summary: "Üniversite kapsamında C++ ile geliştirdiğim modüler bir akıllı saksı framework'ü. Sensörlerden gelen nem/ışık verisini işleyip fuzzy mantık tabanlı bir karar mekanizmasıyla ne zaman sulama yapılacağına karar veriyor; bulut tarafıyla REST API üzerinden haberleşiyor.",
+      features: [
+        "Sensör verisi okuma ve ön işleme katmanı",
+        "Fuzzy logic tabanlı sulama karar mekanizması",
+        "Pompa kontrolü ve donanım tetikleme mantığı",
+        "REST API entegrasyonu ile cihaz kaydı ve heartbeat gönderimi",
+        "Hata loglama ve sulama aksiyonlarının kayıt altına alınması",
+        "CMake ile modüler, genişletilebilir proje yapısı"
+      ],
+      links: []
+    },
+    takiSitesi: {
+      title: "Takı Web Sitesi",
+      status: "OKUL PROJESİ",
+      stack: "HTML · CSS · JavaScript · PHP · MySQL",
+      summary: "Takı ürünlerinin listelenmesi ve yönetilmesi amacıyla geliştirdiğim full-stack bir e-ticaret sitesi. Okul projesi kapsamında geliştirildiği için canlıya alınmadı; ürün/kategori veri modelini, arayüzü ve backend bağlantısını baştan sona kendim kurguladım.",
+      features: [
+        "Ürün listeleme ve kategoriye göre filtreleme",
+        "PHP tabanlı backend ile MySQL veritabanı bağlantısı",
+        "Ürün detay ve kategori sayfa yapısı",
+        "Duyarlı (responsive) arayüz tasarımı"
+      ],
+      links: []
+    },
+    urlShortener: {
+      title: "URL Shortener",
+      status: "CANLI",
+      stack: "Node.js · Express.js · SQLite3",
+      summary: "Uzun URL'leri kısa, paylaşılabilir bağlantılara çeviren bir backend servisi. REST API mimarisiyle route/controller ayrımı yaptım; SQLite üzerinde URL kayıtlarını ve tıklanma istatistiklerini tutuyorum.",
+      features: [
+        "Özel kısa kod (custom short code) desteği",
+        "Kısa URL'den orijinal adrese otomatik yönlendirme",
+        "Tıklanma sayısı takibi ve /stats/:code istatistik endpoint'i",
+        "URL format doğrulama ve tekrarlayan kod kontrolü",
+        "Kopyala-yapıştır destekli basit bir arayüz (HTML/CSS/JS)"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/url-shortener" },
+        { label: "Canlı demo ↗", url: "https://url-shortener-d4hm.onrender.com/" }
+      ]
+    },
+    arduinoAraba: {
+      title: "Sesli & Hareket Kontrollü Arduino Araba",
+      status: "DONANIM",
+      stack: "Arduino · C/C++ · Sensörler · Motor Sürücü",
+      summary: "Sesli komutlar ve el hareketleriyle yönlendirilebilen, Arduino tabanlı bir robotik araç projesi. Donanım ile yazılımı birlikte kurgulayarak sensör verisinden motor hareketine uzanan tüm zinciri kendim tasarladım.",
+      features: [
+        "Sensör verilerinin gerçek zamanlı okunması",
+        "Ses komutu / el hareketi verisinin işlenip yön komutuna çevrilmesi",
+        "Motor sürücü kontrolü ile hareket yönetimi",
+        "Donanım–yazılım entegrasyonu ve gecikme optimizasyonu"
+      ],
+      links: []
+    },
+    veriMadenciligi: {
+      title: "Veri Madenciliği & Sınıflandırma",
+      status: "TAKIM PROJESİ",
+      stack: "Python · Jupyter Notebook · Makine Öğrenmesi",
+      summary: "\"TheRookies\" takımıyla birlikte gerçek bir polis tutuklama veri seti üzerinde çalıştığımız uçtan uca bir veri madenciliği projesi. Veri temizleme ve özellik seçiminden iki farklı sınıflandırma modelinin eğitilip karşılaştırılmasına kadar süreci birlikte yürüttük; sonuçları bir sunumla raporladık.",
+      features: [
+        "Ham veri üzerinde temizleme ve ön işleme",
+        "Özellik seçimi ve veri setinin modele hazırlanması",
+        "İki farklı sınıflandırma modelinin eğitilip karşılaştırılması",
+        "Sonuçların Jupyter Notebook üzerinde uygulanıp raporlanması",
+        "Takım sunumu ile bulguların özetlenmesi"
+      ],
+      links: [
+        { label: "TheRookies ↗", url: "https://github.com/Aley777/TheRookies" },
+        { label: "TheRookiesFinal ↗", url: "https://github.com/Aley777/TheRookiesFinal" }
+      ]
+    },
+    pomodoro: {
+      title: "Pomodoro Timer",
+      status: "CANLI",
+      stack: "React · Vite · JavaScript (ES6+) · CSS3 · React Hooks",
+      summary: "Odaklanma ve zaman yönetimi için geliştirdiğim, klasik 25/5/15 Pomodoro döngüsünü modern bir arayüzle sunan uygulama. Ayarlar Local Storage ile kalıcı hale geliyor; ilerleme dairesel bir göstergeyle canlı olarak izlenebiliyor.",
+      features: [
+        "25/5/15 Pomodoro çalışma/mola döngüsü",
+        "Günlük hedef takibi ve oturum geçmişi",
+        "Dairesel ilerleme göstergesi ve oturum istatistikleri",
+        "Sesli bildirimler (açılıp kapatılabilir)",
+        "Özelleştirilebilir çalışma/mola süreleri",
+        "Local Storage ile kalıcı ayarlar, duyarlı tasarım"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/PomodoroTimer" },
+        { label: "Canlı demo ↗", url: "https://pomodoro-timer-psi-puce.vercel.app/" }
+      ]
+    },
+    jwtAuth: {
+      title: "JWT Auth API",
+      status: "CANLI",
+      stack: "Node.js · Express · MongoDB Atlas · JWT · Docker · Swagger · Jest",
+      summary: "Portföyümdeki en kapsamlı backend projem: production kalitesinde, güvenli bir kimlik doğrulama ve yetkilendirme REST API'si. JWT + refresh token akışı, rol tabanlı yetkilendirme, Docker ile konteynerleştirme, Swagger dokümantasyonu ve GitHub Actions ile CI/CD hattı içeriyor; 32'den fazla otomatik entegrasyon testiyle güvence altına alınmış.",
+      features: [
+        "Kayıt, giriş, profil güncelleme ve hesap silme uç noktaları",
+        "JWT + Refresh Token tabanlı kimlik doğrulama akışı",
+        "Rol tabanlı yetkilendirme (Admin / User)",
+        "Helmet, CORS ve rate limiting ile güvenlik katmanları",
+        "MongoDB Atlas + Mongoose veri katmanı",
+        "Swagger UI ile canlı API dokümantasyonu",
+        "Docker ve Docker Compose desteği",
+        "Jest + Supertest ile 32'den fazla otomatik test, GitHub Actions CI"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/auth_api_jwt" },
+        { label: "Swagger docs ↗", url: "https://auth-api-jwt-gwae.onrender.com/api-docs" }
+      ]
+    },
+    markdownEditor: {
+      title: "Markdown Editor",
+      status: "CANLI",
+      stack: "React · Vite · react-markdown · CSS",
+      summary: "Solda yazıp sağda anlık önizleme gördüğünüz, React Hooks ile geliştirdiğim modern bir markdown editörü. Kontrollü bileşen yapısı, tema değiştirme ve dosya indirme gibi tarayıcı özelliklerini uygulama fırsatı buldum.",
+      features: [
+        "Gerçek zamanlı markdown önizlemesi",
+        "Karanlık / aydınlık mod",
+        "Araç çubuğuyla hızlı markdown biçimlendirme",
+        "Kelime ve karakter sayacı",
+        ".md olarak dışa aktarma",
+        "Local Storage ile otomatik kaydetme"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/MarkdownEditor" },
+        { label: "Canlı demo ↗", url: "https://markdown-editor-orcin-delta.vercel.app/" }
+      ]
+    },
+    passwordGenerator: {
+      title: "Password Generator",
+      status: "CANLI",
+      stack: "React · Vite · JavaScript · CSS",
+      summary: "Kullanıcı tercihlerine göre güçlü ve rastgele şifreler üreten bir React uygulaması. UI/UX pratiği ve bileşen yapısı öğrenmek amacıyla geliştirdiğim, küçük ama eksiksiz bir portföy projesi.",
+      features: [
+        "6–32 karakter arasında ayarlanabilir şifre uzunluğu",
+        "Büyük/küçük harf, sayı ve sembol seçenekleri",
+        "Şifre güç göstergesi (zayıf / orta / güçlü)",
+        "Tek tıkla kopyalama ve toast bildirimi",
+        "Son 5 üretilen şifrenin geçmişi",
+        "Karanlık / aydınlık mod desteği"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/PasswordGenerator" },
+        { label: "Canlı demo ↗", url: "https://password-generator-omega-azure.vercel.app/" }
+      ]
+    },
+    jsonFormatter: {
+      title: "JSON Formatter Tool",
+      status: "CANLI",
+      stack: "React · Vite · @uiw/react-json-view",
+      summary: "JSON verisini biçimlendiren, sıkıştıran, doğrulayan ve ağaç görünümünde görselleştiren, temiz ve profesyonel bir arayüze sahip geliştirici aracı. Gerçek dünyadaki geliştirici tooling'lerine benzer, kullanışlı bir UX kurmaya odaklandım.",
+      features: [
+        "JSON biçimlendirme (pretty print) ve minify",
+        "JSON söz dizimi doğrulama",
+        "Genişletilebilir/daraltılabilir ağaç (tree) görünümü",
+        "Sürükle-bırak dosya yükleme ve URL'den JSON çekme",
+        "Yapıştırmada otomatik biçimlendirme",
+        "Karanlık / aydınlık mod, karakter ve satır sayacı"
+      ],
+      links: [
+        { label: "GitHub ↗", url: "https://github.com/Aley777/JSON_FormetterTool" },
+        { label: "Canlı demo ↗", url: "https://json-formetter-tool.vercel.app/" }
+      ]
+    }
+  };
+
+  var overlay = document.getElementById('modalOverlay');
+  var elTitle = document.getElementById('modalTitle');
+  var elStatus = document.getElementById('modalStatus');
+  var elStack = document.getElementById('modalStack');
+  var elSummary = document.getElementById('modalSummary');
+  var elFeatures = document.getElementById('modalFeatures');
+  var elLinks = document.getElementById('modalLinks');
+  var lastFocused = null;
+
+  function openProject(id){
+    var p = PROJECTS[id];
+    if(!p) return;
+    elTitle.textContent = p.title;
+    elStatus.textContent = p.status;
+    elStack.textContent = p.stack;
+    elSummary.textContent = p.summary;
+    elFeatures.innerHTML = '';
+    p.features.forEach(function(f){
+      var li = document.createElement('li');
+      li.textContent = f;
+      elFeatures.appendChild(li);
+    });
+    elLinks.innerHTML = '';
+    p.links.forEach(function(l){
+      var a = document.createElement('a');
+      a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = l.label;
+      elLinks.appendChild(a);
+    });
+    lastFocused = document.activeElement;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('modalClose').focus();
+  }
+
+  function closeProject(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if(lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.proj[data-project]').forEach(function(card){
+    card.addEventListener('click', function(){
+      openProject(card.getAttribute('data-project'));
+    });
+    card.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openProject(card.getAttribute('data-project'));
+      }
+    });
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeProject);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeProject();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeProject();
+  });
+</script>
+
+<script>
+  // Robust smooth-scroll for in-page nav links (menu + hero CTA),
+  // in case the browser/preview doesn't honor CSS scroll-behavior.
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
